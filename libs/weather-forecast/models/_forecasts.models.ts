@@ -1,8 +1,4 @@
-// import { DynamicObject } from './_generics.models';
-
 import { DynamicObject } from './_generics.models';
-
-export const weekDayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 export enum ForecastTimePeriod {
 	// Include here all the list based in the API spec
@@ -12,11 +8,6 @@ export enum ForecastTimePeriod {
 	'hourly' = 'hourly',
 	'alerts' = 'alerts',
 }
-
-export const allowedForecastTimePeriods = [ForecastTimePeriod.daily, ForecastTimePeriod.hourly];
-export const disallowedForecastTimePeriods = Object.keys(ForecastTimePeriod).filter(tp =>
-	(allowedForecastTimePeriods as string[]).includes(tp)
-);
 
 export interface CityGeoData extends DynamicObject<any> {
 	name: string;
@@ -94,4 +85,11 @@ export interface WeatherSummary {
 	main: string;
 	description: string;
 	icon: string;
+}
+
+export type ForecastAggregated = ForecastResponse<DynamicObject<number>, DynamicObject<number>>;
+
+export interface SearchFormFields {
+	city: string;
+	timePeriodSelected: ForecastTimePeriod;
 }

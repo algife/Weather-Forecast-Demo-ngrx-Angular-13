@@ -1,3 +1,3 @@
-export const appEffects = [
-	// We import here our ngRx Effects
-];
+import { ForecastsEffects } from './forecasts.effects';
+
+export const appEffects = [ForecastsEffects];

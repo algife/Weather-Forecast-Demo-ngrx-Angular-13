@@ -42,8 +42,12 @@
 		"@ngrx/store": "^13.0.2",
 		"@ngrx/store-devtools": "^13.0.2",
 		"@nrwl/angular": "13.1.3",
+		"@types/moment": "^2.13.0",
+		"@types/underscore": "^1.11.4",
+		"moment": "^2.29.1",
 		"rxjs": "7.4.0",
 		"tslib": "2.3.1",
+		"underscore": "^1.13.2",
 		"zone.js": "0.11.4"
 	},
 	"devDependencies": {

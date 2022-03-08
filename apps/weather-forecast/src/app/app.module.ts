@@ -1,6 +1,18 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -12,10 +24,11 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { ForecastsResultsTableComponent } from './components/forecasts-results-table/forecasts-results-table.component';
 import { ForecastsSearchComponent } from './components/forecasts-search/forecasts-search.component';
+import { appRoutes } from './routes';
 import { SimpleRouterSerializer } from './routes/simple-router-serializer';
 import { appEffects } from './store/effects';
 import { appReducers } from './store/reducers';
-import { appRoutes } from './routes';
+import { WeatherForecastServicesModule } from 'libs/weather-forecast/services/src/lib/weather-forecast-services.module';
 
 @NgModule({
 	declarations: [AppComponent, ForecastsSearchComponent, ForecastsResultsTableComponent],
@@ -25,6 +38,21 @@ import { appRoutes } from './routes';
 		FormsModule,
 		ReactiveFormsModule,
 		HttpClientModule,
+
+		// ! Material Modules
+		MatFormFieldModule,
+		MatInputModule,
+		MatIconModule,
+		MatProgressSpinnerModule,
+		MatButtonToggleModule,
+		MatButtonModule,
+		MatPaginatorModule,
+		MatSortModule,
+		MatTableModule,
+		MatCardModule,
+		MatMenuModule,
+		MatToolbarModule,
+		WeatherForecastServicesModule,
 
 		// ! Routes
 		RouterModule.forRoot(appRoutes),

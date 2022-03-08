@@ -1,7 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CityGeoData, disallowedForecastTimePeriods, ForecastResponse } from 'libs/weather-forecast/models';
+import {
+	CityGeoData,
+	ForecastDailyPeriodReport,
+	ForecastHourlyPeriodReport,
+	ForecastResponse,
+} from 'libs/weather-forecast/models';
 import { map } from 'rxjs';
+import { DISALLOWED_FORECAST_TIME_PERIODS } from './helpers/constants';
+import { parseCityForecastResponse } from './helpers/parsers';
 
 @Injectable({ providedIn: 'root' })
 export class WeatherForecastApiService {
@@ -10,7 +17,7 @@ export class WeatherForecastApiService {
 	private readonly _weatherApiGeoBaseUrl = `${this._apiBaseDomain}/geo/1.0/direct`;
 	private readonly _weatherApiForecastBaseUrl = `${this._apiBaseDomain}/data/2.5/onecall`;
 
-	disallowedForecastTimePeriods = disallowedForecastTimePeriods;
+	forecastExcludedModes = DISALLOWED_FORECAST_TIME_PERIODS;
 
 	constructor(private http: HttpClient) {}
 
@@ -24,19 +31,24 @@ export class WeatherForecastApiService {
 					.set('q', cityName)
 					.set('limit', 1),
 			})
-				// response is an array with just one element (because is limited to 1)
+				// response is an array with just one element
 				.pipe(map(([cityGeoData]) => cityGeoData))
 		);
 	}
 
 	public fetchGeoLocationForecast$(geoData: CityGeoData) {
-		return this.http.get<ForecastResponse>(this._weatherApiForecastBaseUrl, {
-			params: new HttpParams()
+		return this.http
+			.get<ForecastResponse<ForecastDailyPeriodReport, ForecastHourlyPeriodReport>>(
+			this._weatherApiForecastBaseUrl,
+			{
+				params: new HttpParams()
 				// URL QUERY PARAMS
-				.set('appId', this._apiKey)
-				.set('lat', geoData.lat ?? '')
-				.set('lon', geoData.lon ?? '')
-				.set('exclude', this.disallowedForecastTimePeriods.join(',')),
-		});
+					.set('appId', this._apiKey)
+					.set('lat', geoData.lat ?? '')
+					.set('lon', geoData.lon ?? '')
+					.set('exclude', this.forecastExcludedModes.join(',')),
+			}
+		)
+			.pipe(map(forecastResponse => parseCityForecastResponse(geoData, forecastResponse)));
 	}
 }

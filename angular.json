@@ -23,7 +23,7 @@
 						"assets": ["apps/weather-forecast/src/favicon.ico", "apps/weather-forecast/src/assets"],
 						"styles": [
 							"./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-							"apps/weather-forecast/src/styles.scss"
+							"apps/weather-forecast/src/assets/styles/styles.scss"
 						],
 						"scripts": []
 					},

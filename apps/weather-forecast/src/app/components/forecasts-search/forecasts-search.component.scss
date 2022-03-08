@@ -1,0 +1,28 @@
+@import '../../../assets/styles/variables';
+
+.search-form {
+	display: flex;
+	flex-direction: column;
+}
+
+.time-period-selected-button-toggle-group {
+	display: flex;
+
+	.button,
+	.mat-button-toggle {
+		flex: 1 0 auto;
+		justify-items: stretch;
+		cursor: pointer;
+
+		// We can customize when the the button timePeriodSelected is active
+		&.active {
+			background-color: $primaryColor;
+			color: white;
+			box-shadow: none, inset 0 0 1rem rgba(0, 0, 0, 0.25);
+		}
+		&:not(.active) {
+			background-color: #ddd;
+			opacity: 0.618;
+		}
+	}
+}
