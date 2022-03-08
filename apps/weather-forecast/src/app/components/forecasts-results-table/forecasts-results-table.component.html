@@ -1,1 +1,39 @@
-<p>forecasts-results-table works!</p>
+<ng-container *ngIf="displayedColumns.length > 0; else noData ? noData : loadingOrEmpty">
+	<table mat-table [dataSource]="dataSource.data" class="mat-elevation-z8 forecast-table">
+		<ng-container *ngFor="let colItem of displayedColumns; let colIndex = index" matColumnDef="{{ colItem }}">
+			<th mat-header-cell *matHeaderCellDef>
+				<ng-container *ngIf="colItem !== deleteColumnKey">{{ colItem }}</ng-container>
+			</th>
+			<td mat-cell *matCellDef="let rowItem">
+				<ng-container
+					*ngIf="
+						colItem === cityNameColumnKey;
+						else colItem === deleteColumnKey ? removeIcon : temperatureCell
+					"
+				>
+					{{ rowItem[colItem] | titlecase }}
+				</ng-container>
+				<ng-template #temperatureCell>
+					{{ rowItem[colItem] / 10 | number }}
+					<span class="celsius-symbol">°C</span>
+				</ng-template>
+				<ng-template #removeIcon>
+					<!-- ❌ REMOVE ICON -->
+					<mat-icon (click)="removeCityForecastFromTable(rowItem[cityNameColumnKey])" class="remove-icon"
+						>delete_forever</mat-icon
+					>
+				</ng-template>
+			</td>
+		</ng-container>
+
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+	</table>
+</ng-container>
+
+<ng-template #loadingOrEmpty>
+	<mat-progress-spinner color="primary" mode="indeterminate" style="margin: 1rem auto"></mat-progress-spinner>
+</ng-template>
+<ng-template #noData>
+	<p>Start by searching a city</p>
+</ng-template>

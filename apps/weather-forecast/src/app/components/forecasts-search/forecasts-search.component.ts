@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { RouterStateUrl, SearchFormFields } from 'libs/weather-forecast/models';
+import { SearchFormFields, RouterStateUrl } from 'libs/weather-forecast/models';
 import { ALLOWED_FORECAST_TIME_PERIODS } from 'libs/weather-forecast/services/src/lib/helpers/constants';
 import { parseURLParams } from 'libs/weather-forecast/services/src/lib/helpers/parsers';
 import { debounceTime, filter, map, merge, Observable, Subject, takeUntil, tap } from 'rxjs';
@@ -23,7 +23,7 @@ export class ForecastsSearchComponent implements OnDestroy, AfterViewInit {
 		city: ['', [Validators.required, Validators.minLength(3)]],
 		timePeriodSelected: ['', []],
 	});
-	public readonly ALLOWED_FORECAST_TIME_PERIODS = ALLOWED_FORECAST_TIME_PERIODS; // used in the template
+	public readonly allowedForecastTimePeriods = ALLOWED_FORECAST_TIME_PERIODS; // used in the template
 
 	// OBSERVABLES
 	// ------------
@@ -57,10 +57,17 @@ export class ForecastsSearchComponent implements OnDestroy, AfterViewInit {
 		return this.actions$.pipe(ofType(ForecastsActions.fetchForecastCityNotFound), takeUntil(this.destroy$));
 	}
 
+	get forecastRemoved$() {
+		return this.actions$.pipe(ofType(ForecastsActions.removeCityForecast), takeUntil(this.destroy$));
+	}
+
 	get loadResultAction$() {
-		return merge(this.loadForecastSuccess$, this.loadForecastFailure$, this.loadForecastNotFound$).pipe(
-			takeUntil(this.destroy$)
-		);
+		return merge(
+			this.loadForecastSuccess$,
+			this.loadForecastFailure$,
+			this.loadForecastNotFound$,
+			this.forecastRemoved$
+		).pipe(takeUntil(this.destroy$));
 	}
 	// end of observables
 
@@ -106,7 +113,7 @@ export class ForecastsSearchComponent implements OnDestroy, AfterViewInit {
 
 		this.loadResultAction$.subscribe(loadAction => {
 			// Set CITY NOT FOUND ERROR UI FLAG
-			this.showCityNotFoundError = loadAction.type !== ForecastsActions.ForecastsActionKey.FetchSuccess;
+			this.showCityNotFoundError = loadAction.type === ForecastsActions.ForecastsActionKey.FetchCityNotFound;
 		});
 	}
 

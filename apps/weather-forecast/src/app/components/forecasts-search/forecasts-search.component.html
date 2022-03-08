@@ -1,8 +1,8 @@
 <form matForm class="search-form" [formGroup]="forecastSearchForm">
-	<mat-form-field name="city" appearance="fill">
+	<mat-form-field class="search-input-group" name="city" appearance="fill">
+		<mat-icon matPrefix>travel_explore</mat-icon>
 		<mat-label for="city">City</mat-label>
 		<input matInput type="search" name="city" #searchQueryInputElement formControlName="city" autofocus required />
-		<mat-icon matSuffix>travel_explore</mat-icon>
 		<mat-hint *ngIf="!showCityNotFoundError"
 			>The forecast for the city will be added to the table automatically</mat-hint
 		>
@@ -18,13 +18,12 @@
 		#timePeriodSelectedToggleGroup
 	>
 		<mat-button-toggle
-			*ngFor="let tpSelected of ALLOWED_FORECAST_TIME_PERIODS"
+			*ngFor="let tpSelected of allowedForecastTimePeriods"
 			class="button"
 			[value]="tpSelected"
-			#modeButton_{{tpSelected}}
 			[routerLink]="['/forecast/' + tpSelected]"
 			[queryParams]="{ city: searchQueryInputElement!.value }"
-			routerLinkActive="active"
+			[routerLinkActive]="['active']"
 		>
 			{{ tpSelected | titlecase }}
 		</mat-button-toggle>

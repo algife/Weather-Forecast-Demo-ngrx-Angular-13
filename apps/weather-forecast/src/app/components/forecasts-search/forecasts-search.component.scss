@@ -3,6 +3,10 @@
 .search-form {
 	display: flex;
 	flex-direction: column;
+
+	.search-input-group {
+		padding: 0 0.618em;
+	}
 }
 
 .time-period-selected-button-toggle-group {
@@ -17,11 +21,10 @@
 		// We can customize when the the button timePeriodSelected is active
 		&.active {
 			background-color: $primaryColor;
-			color: white;
 			box-shadow: none, inset 0 0 1rem rgba(0, 0, 0, 0.25);
 		}
 		&:not(.active) {
-			background-color: #ddd;
+			background-color: #bbb;
 			opacity: 0.618;
 		}
 	}
