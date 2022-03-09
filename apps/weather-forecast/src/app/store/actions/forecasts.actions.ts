@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ForecastAggregated } from 'libs/weather-forecast/models';
+import { ForecastAggregated } from '@bp/weather-forecast-shared';
 
 export enum ForecastsActionKey {
 	Fetch = '[Forecasts] Load',

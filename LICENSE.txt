@@ -1,0 +1,4 @@
+LICENSE AVAILABLE AT: https://creativecommons.org/licenses/by/4.0/legalcode
+
+This project is licensed under Creative Commons Attribution 4.0 LICENSE.
+Author: Alexandre Gimenez (https://linkedin.com/in/algife)

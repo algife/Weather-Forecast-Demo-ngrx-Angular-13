@@ -2,11 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { DynamicObject, ForecastTimePeriod, RouterStateUrl } from 'libs/weather-forecast/models';
-import {
-	RESULTS_TABLE_CITY_NAME_COLUMN_KEY,
-	RESULTS_TABLE_DELETE_COLUMN_KEY,
-} from 'libs/weather-forecast/services/src/lib/helpers/constants';
+import { DynamicObject, ForecastTimePeriod, RouterStateUrl } from '@bp/weather-forecast-shared';
+import { RESULTS_TABLE_CITY_NAME_COLUMN_KEY, RESULTS_TABLE_DELETE_COLUMN_KEY } from '@bp/weather-forecast-shared';
 import { combineLatestWith, debounceTime, filter, map, Subject, switchMap, takeUntil } from 'rxjs';
 import * as ForecastActions from '../../store/actions/forecasts.actions';
 import { AppState } from '../../store/app.state';

@@ -28,7 +28,6 @@ import { appRoutes } from './routes';
 import { SimpleRouterSerializer } from './routes/simple-router-serializer';
 import { appEffects } from './store/effects';
 import { appReducers } from './store/reducers';
-import { WeatherForecastServicesModule } from 'libs/weather-forecast/services/src/lib/weather-forecast-services.module';
 
 @NgModule({
 	declarations: [AppComponent, ForecastsSearchComponent, ForecastsResultsTableComponent],
@@ -52,7 +51,6 @@ import { WeatherForecastServicesModule } from 'libs/weather-forecast/services/sr
 		MatCardModule,
 		MatMenuModule,
 		MatToolbarModule,
-		WeatherForecastServicesModule,
 
 		// ! Routes
 		RouterModule.forRoot(appRoutes),

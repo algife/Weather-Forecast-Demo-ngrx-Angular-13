@@ -1,6 +1,6 @@
 import { RouterStateSnapshot } from '@angular/router';
 import { RouterStateSerializer } from '@ngrx/router-store';
-import { RouterStateUrl } from 'libs/weather-forecast/models';
+import { RouterStateUrl } from '@bp/weather-forecast-shared';
 
 export class SimpleRouterSerializer implements RouterStateSerializer<RouterStateUrl> {
 	serialize(routerState: RouterStateSnapshot): RouterStateUrl {

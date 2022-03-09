@@ -3,17 +3,19 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { routerNavigatedAction } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
-import { CityGeoData, RouterStateUrl } from 'libs/weather-forecast/models';
-import { ALLOWED_FORECAST_TIME_PERIODS } from 'libs/weather-forecast/services/src/lib/helpers/constants';
-import { WeatherForecastApiService } from 'libs/weather-forecast/services/src/lib/weather-forecast-api.service';
+import {
+	ALLOWED_FORECAST_TIME_PERIODS,
+	CityGeoData,
+	DEFAULT_CITY,
+	DEFAULT_TIME_PERIOD_SELECTED,
+	RouterStateUrl,
+} from '@bp/weather-forecast-shared';
+import { WeatherForecastApiService } from '@bp/weather-forecast-shared';
 import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs';
 import * as ForecastsActions from '../actions/forecasts.actions';
 import { AppState } from '../app.state';
 import * as fromForecasts from '../reducers/forecasts.reducers';
 import storeKeys from '../store-keys';
-
-const DEFAULT_TIME_PERIOD_SELECTED = 'daily';
-const DEFAULT_CITY = 'Limassol';
 
 @Injectable()
 export class ForecastsEffects {

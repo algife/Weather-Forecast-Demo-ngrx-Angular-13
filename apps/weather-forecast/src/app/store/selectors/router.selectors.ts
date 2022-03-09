@@ -1,6 +1,6 @@
 import { RouterReducerState } from '@ngrx/router-store';
 import { createFeatureSelector } from '@ngrx/store';
-import { RouterStateUrl } from 'libs/weather-forecast/models';
+import { RouterStateUrl } from '@bp/weather-forecast-shared';
 
 import storeKeys from '../store-keys';
 

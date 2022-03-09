@@ -7,7 +7,7 @@ import {
 	ForecastResponse,
 	RouterStateUrl,
 	SearchFormFields,
-} from 'libs/weather-forecast/models';
+} from './models';
 import moment from 'moment';
 import _ from 'underscore';
 import { WEEK_DAYS } from './constants';

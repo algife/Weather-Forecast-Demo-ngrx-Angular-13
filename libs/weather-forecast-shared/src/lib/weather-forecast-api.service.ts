@@ -1,13 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CityGeoData, ForecastResponse } from 'libs/weather-forecast/models';
+import { CityGeoData, ForecastResponse } from './models';
 import { map } from 'rxjs';
-import { DISALLOWED_FORECAST_TIME_PERIODS } from './helpers/constants';
-import { parseCityForecastResponse } from './helpers/parsers';
+import { DISALLOWED_FORECAST_TIME_PERIODS, OPEN_WEATHER_API_KEY } from './constants';
+import { parseCityForecastResponse } from './parsers';
 
 @Injectable({ providedIn: 'root' })
 export class WeatherForecastApiService {
-	private readonly _apiKey = '010721642521f31b0fbc8c3831d45951';
+	private readonly _apiKey = OPEN_WEATHER_API_KEY;
 	private readonly _apiBaseDomain = `https://api.openweathermap.org`;
 	private readonly _weatherApiGeoBaseUrl = `${this._apiBaseDomain}/geo/1.0/direct`;
 	private readonly _weatherApiForecastBaseUrl = `${this._apiBaseDomain}/data/2.5/onecall`;

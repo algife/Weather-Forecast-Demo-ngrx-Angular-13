@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { DynamicObject, ForecastAggregated } from 'libs/weather-forecast/models';
+import { DynamicObject, ForecastAggregated } from '@bp/weather-forecast-shared';
 import * as ForecastsActions from '../actions/forecasts.actions';
 
 export type ForecastsState = DynamicObject<ForecastAggregated>;
