@@ -19,25 +19,22 @@ export const parseURLParams = (routerStateUrl: RouterStateUrl): SearchFormFields
 	};
 };
 
-export const parseCityForecastResponse = (
-	geoData: CityGeoData,
-	cityForecast: ForecastResponse<ForecastDailyPeriodReport, ForecastHourlyPeriodReport>
-): ForecastAggregated => {
+export const parseCityForecastResponse = (geoData: CityGeoData, cityForecast: ForecastResponse): ForecastAggregated => {
 	// Parse data to match the data store model
 
 	// ! DAILY
 	// Merge all the data into just one single temperature the city for each day
-	const aggregatedDaily = parseCityForecastDaily(cityForecast.daily);
+	const aggregatedDaily = _parseCityForecastDaily(cityForecast.daily);
 
 	// ! HOURLY
 	// Merge all the snapshots into 8 hourly snapshots with 3 hours step each.
-	const aggregatedHourly = parseCityForecastHourly(cityForecast.hourly);
+	const aggregatedHourly = _parseCityForecastHourly(cityForecast.hourly);
 
 	// merge and overwrite some fields
 	return { ...geoData, ...cityForecast, hourly: aggregatedHourly, daily: aggregatedDaily };
 };
 
-export const parseCityForecastHourly = (hourly: ForecastHourlyPeriodReport[]) => {
+const _parseCityForecastHourly = (hourly: ForecastHourlyPeriodReport[]) => {
 	const hourlyCols = [...Array(24 / 3).keys()].map(i => `${3 * i}:00`.padStart(5, '0'));
 	const getGroupHeaderFor = (dt: number): string => {
 		const ref = moment(dt * 1000)
@@ -49,22 +46,28 @@ export const parseCityForecastHourly = (hourly: ForecastHourlyPeriodReport[]) =>
 	};
 	const aggregatedHourly = {} as any;
 	const hourlyGroups = _.groupBy(hourly, item => getGroupHeaderFor(item.dt));
+
+	// Add temp value to the aggregated result
 	Object.keys(hourlyGroups).forEach(gk => {
-		aggregatedHourly[gk] = Math.round(
-			hourlyGroups[gk].reduce((acc, item) => acc + item.temp, 0) / hourlyGroups[gk].length
-		);
+		aggregatedHourly[gk] = _getTimePeriodAverageTemperature(hourlyGroups[gk]);
 	});
-	return aggregatedHourly as DynamicObject<number>[];
+
+	return aggregatedHourly as DynamicObject<number>;
 };
 
-export const parseCityForecastDaily = (daily: ForecastDailyPeriodReport[]) => {
+const _parseCityForecastDaily = (daily: ForecastDailyPeriodReport[]) => {
 	const dailyCols = WEEK_DAYS.map(wd => wd.slice(0, 2));
 	const aggregatedDaily: any = {};
 	const dailyGroups = _.groupBy(daily, item => dailyCols[moment(item.dt * 1000).weekday()]);
+
+	// Add temp value to the aggregated result
 	Object.keys(dailyGroups).forEach(gk => {
-		aggregatedDaily[gk] = Math.round(
-			dailyGroups[gk].reduce((acc, item) => acc + item.temp.day, 0) / dailyGroups[gk].length
-		);
+		aggregatedDaily[gk] = _roundTemp(dailyGroups[gk][0].temp.day); // rounded to one decimal
 	});
-	return aggregatedDaily as DynamicObject<number>[];
+	return aggregatedDaily as DynamicObject<number>;
 };
+
+const _roundTemp = (temp: number) => Math.round(temp * 10) / 10;
+
+const _getTimePeriodAverageTemperature = (group: ForecastHourlyPeriodReport[]) =>
+	_roundTemp(group.reduce((acc, item) => acc + item.temp, 0) / group.length);

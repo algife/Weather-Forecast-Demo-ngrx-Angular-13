@@ -23,7 +23,7 @@
 			[value]="tpSelected"
 			[routerLink]="['/forecast/' + tpSelected]"
 			[queryParams]="{ city: searchQueryInputElement!.value }"
-			[routerLinkActive]="['active']"
+			routerLinkActive="active"
 		>
 			{{ tpSelected | titlecase }}
 		</mat-button-toggle>

@@ -14,7 +14,7 @@
 					{{ rowItem[colItem] | titlecase }}
 				</ng-container>
 				<ng-template #temperatureCell>
-					{{ rowItem[colItem] / 10 | number }}
+					{{ rowItem[colItem] | number }}
 					<span class="celsius-symbol">°C</span>
 				</ng-template>
 				<ng-template #removeIcon>

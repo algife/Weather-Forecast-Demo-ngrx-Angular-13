@@ -19,16 +19,16 @@ export interface CityGeoData extends DynamicObject<any> {
 }
 
 export interface Forecast<DT, HT> extends CityGeoData {
-	daily: DT[];
-	hourly: HT[];
+	daily: DT;
+	hourly: HT;
 	timezone: string;
 	timezone_offset: number;
 }
 
-export interface ForecastResponse<DT = ForecastDailyPeriodReport, HT = ForecastHourlyPeriodReport>
+export interface ForecastResponse<DT = Array<ForecastDailyPeriodReport>, HT = Array<ForecastHourlyPeriodReport>>
 	extends Forecast<DT, HT> {
-	daily: DT[];
-	hourly: HT[];
+	daily: DT;
+	hourly: HT;
 	timezone: string;
 	timezone_offset: number;
 	lon: number;
@@ -38,6 +38,7 @@ export interface ForecastResponse<DT = ForecastDailyPeriodReport, HT = ForecastH
 export interface ForecastPeriodReport {
 	cityName?: string;
 	dt: number;
+	temp?: any;
 	pressure: number;
 	humidity: number;
 	dew_point: number;
@@ -77,8 +78,6 @@ export interface ForecastHourlyPeriodReport extends ForecastPeriodReport {
 	feels_like: number;
 	visibility: number;
 }
-
-export type ForecastPeriodReportGroup = ForecastDailyPeriodReport[] | ForecastHourlyPeriodReport[];
 
 export interface WeatherSummary {
 	id: number;
